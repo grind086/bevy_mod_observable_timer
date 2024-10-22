@@ -4,6 +4,7 @@ version = "0.1.0"
 authors = ["Rob Grindeland <rgrindeland@gmail.com>"]
 edition = "2021"
 description = "An observer-based timer for bevy"
+readme = "README.md"
 repository = "https://github.com/grind086/bevy_mod_observable_timer"
 license = "MIT OR Apache-2.0"
 keywords = ["bevy", "observer", "timer"]
