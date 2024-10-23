@@ -368,9 +368,7 @@ impl Component for ObservableTimer {
     const STORAGE_TYPE: StorageType = StorageType::Table;
 
     fn register_component_hooks(hooks: &mut ComponentHooks) {
-        hooks
-            .on_insert(on_timer_inserted)
-            .on_remove(on_timer_removed);
+        hooks.on_remove(on_timer_removed);
     }
 }
 
@@ -407,12 +405,6 @@ impl TimerFinished {
     }
 }
 
-fn on_timer_inserted(mut world: DeferredWorld, entity: Entity, _: ComponentId) {
-    world
-        .commands()
-        .trigger_targets(TimerStarted { _inner: () }, entity);
-}
-
 fn on_timer_removed(mut world: DeferredWorld, entity: Entity, _: ComponentId) {
     let timer = world.get::<ObservableTimer>(entity).unwrap();
     if !timer.is_done() {
@@ -429,6 +421,10 @@ fn update_observable_timers(
 ) {
     let delta = time.delta();
     for (entity, mut timer) in timers.iter_mut() {
+        if timer.is_added() {
+            commands.trigger_targets(TimerStarted { _inner: () }, entity)
+        }
+
         // The current interval number
         let interval_num = timer.elapsed_intervals + 1;
 
