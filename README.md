@@ -16,13 +16,18 @@ See [`TimerFinishBehavior`] for more information.
 ## Basic Example
 
 ```rust
-use bevy_prelude::*;
+use bevy::{log::LogPlugin, prelude::*};
 use bevy_mod_observable_timer::*;
 
 fn main() {
     App::new()
-        .add_plugins((DefaultPlugins, ObservableTimerPlugin))
-        .add_systems(Startup, startup);
+        .add_plugins((
+            MinimalPlugins,
+            LogPlugin::default(),
+            ObservableTimerPlugin::default(),
+        ))
+        .add_systems(Startup, startup)
+        .run();
 }
 
 fn startup(mut commands: Commands) {
@@ -32,10 +37,11 @@ fn startup(mut commands: Commands) {
             info!("Timer started");
         })
         .observe(|trigger: Trigger<TimerInterval>| {
-            info!("Interval #{}", trigger.count());
+            info!("Interval #{}", trigger.event().count());
         })
-        .observe(|_: Trigger<TimerFinished>| {
+        .observe(|_: Trigger<TimerFinished>, mut app_exit: EventWriter<AppExit>| {
             info!("Timer finished");
+            app_exit.send_default();
         });
 }
 ```
