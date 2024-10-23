@@ -348,7 +348,7 @@ impl ObservableTimer {
                     .timer
                     .tick(delta)
                     .times_finished_this_tick()
-                    .max(remaining_intervals);
+                    .min(remaining_intervals);
 
                 self.intervals_this_tick = intervals_this_tick;
                 self.remaining_intervals = Some(remaining_intervals - intervals_this_tick);
