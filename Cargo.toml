@@ -1,6 +1,6 @@
 [package]
 name = "bevy_mod_observable_timer"
-version = "0.1.1"
+version = "0.2.0-rc.1"
 authors = ["Rob Grindeland <rgrindeland@gmail.com>"]
 edition = "2021"
 description = "An observer-based timer for bevy"
