@@ -1,6 +1,6 @@
 #![doc = include_str!("../README.md")]
 
-use std::{
+use core::{
     ops::{Deref, DerefMut},
     time::Duration,
 };
