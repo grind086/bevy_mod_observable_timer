@@ -1,5 +1,5 @@
 //! A timer that runs just a single time.
-//! 
+//!
 //! This should result in an output of:
 //! ```text
 //! [t=0] Timer started
@@ -24,15 +24,17 @@ fn main() {
 fn startup(mut commands: Commands) {
     commands
         // Shortcut for `ObservableTimer::from_seconds(1, 1.0)`
-        .spawn(ObservableTimer::once_from_seconds(1.0))
+        .spawn(ObservableTimer::from_seconds(1.0, TimerMode::Once))
         .observe(|_: Trigger<TimerStarted>| {
             info!("Timer started");
         })
-        .observe(|trigger: Trigger<TimerInterval>| {
-            info!("Interval #{}", trigger.event().count());
-        })
-        .observe(|_: Trigger<TimerFinished>, mut app_exit: EventWriter<AppExit>| {
+        .observe(|_: Trigger<TimerFinished>| {
             info!("Timer finished");
-            app_exit.send_default();
-        });
+        })
+        .observe(
+            |_: Trigger<TimerStopped>, mut app_exit: EventWriter<AppExit>| {
+                info!("Timer stopped");
+                app_exit.write_default();
+            },
+        );
 }
