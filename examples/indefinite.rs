@@ -2,11 +2,11 @@
 //! 
 //! This should result in an output of:
 //! ```text
-//! [t=0] Timer started
-//! [t=1] Timer finished (#1)
-//! [t=1] Timer finished (#2)
-//! [t=1] Timer finished (#3)
-//! [t=1] Timer finished (#4)
+//! Timer started
+//! Timer finished (#1)
+//! Timer finished (#2)
+//! Timer finished (#3)
+//! Timer finished (#4)
 //! ...
 //! ```
 
@@ -33,11 +33,11 @@ fn startup(mut commands: Commands) {
             info!("Timer started");
         })
         .observe(|_: Trigger<TimerFinished>, mut count: Local<usize>| {
-            info!("Timer finished (#{})", *count);
             *count += 1;
+            info!("Timer finished (#{})", *count);
         })
         // This will only run if the timer is manually cancelled
-        .observe(|_: Trigger<TimerFinished>, mut app_exit: EventWriter<AppExit>| {
+        .observe(|_: Trigger<TimerStopped>, mut app_exit: EventWriter<AppExit>| {
             info!("Timer stopped");
             app_exit.write_default();
         });

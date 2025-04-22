@@ -1,4 +1,12 @@
 //! Demonstrates cancelling a timer.
+//!
+//! This should result in an output of:
+//! ```text
+//! Timer started
+//! Timer finished (#1)
+//! Timer finished (#2)
+//! Timer stopped (finished = false)
+//! ```
 
 use bevy::{log::LogPlugin, prelude::*};
 use bevy_mod_observable_timer::*;
@@ -21,8 +29,8 @@ fn startup(mut commands: Commands) {
             info!("Timer started");
         })
         .observe(|_: Trigger<TimerFinished>, mut count: Local<usize>| {
-            info!("Timer finished (#{})", *count);
             *count += 1;
+            info!("Timer finished (#{})", *count);
         })
         .observe(
             |trigger: Trigger<TimerStopped>, mut app_exit: EventWriter<AppExit>| {
@@ -35,6 +43,7 @@ fn startup(mut commands: Commands) {
         )
         .id();
 
+    // We'll use another timer to cancel the first one after 2.5 seconds.
     commands
         .spawn(ObservableTimer::from_seconds(2.5, TimerMode::Once))
         .observe(move |_: Trigger<TimerFinished>, mut commands: Commands| {

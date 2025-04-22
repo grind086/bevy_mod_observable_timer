@@ -2,9 +2,9 @@
 //!
 //! This should result in an output of:
 //! ```text
-//! [t=0] Timer started
-//! [t=1] Interval #1
-//! [t=1] Timer finished
+//! Timer started
+//! Timer finished
+//! Timer stopped
 //! ```
 
 use bevy::{log::LogPlugin, prelude::*};

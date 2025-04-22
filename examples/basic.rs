@@ -1,4 +1,15 @@
 //! The example from the README.
+//!
+//! This should result in an output of:
+//! ```text
+//! Timer started
+//! Timer finished (#1)
+//! Timer finished (#2)
+//! Timer finished (#3)
+//! Timer finished (#4)
+//! Timer finished (#5)
+//! Timer stopped
+//! ```
 
 use bevy::{log::LogPlugin, prelude::*};
 use bevy_mod_observable_timer::*;
@@ -22,10 +33,10 @@ fn startup(mut commands: Commands) {
         })
         .observe(
             |trigger: Trigger<TimerFinished>, mut count: Local<usize>, mut commands: Commands| {
-                info!("Timer finished (#{})", *count);
                 *count += 1;
+                info!("Timer finished (#{})", *count);
 
-                if *count >= 5 {
+                if *count == 5 {
                     commands.entity(trigger.target()).despawn();
                 }
             },
