@@ -18,7 +18,7 @@ use bevy::{
 ///
 /// Runs in [`Update`] by default, but this is configurable. See [`ObservableTimerPlugin::in_schedule()`].
 #[derive(SystemSet, Debug, Default, Clone, Copy, PartialEq, Eq, Hash)]
-pub struct ObservableTimerSet;
+pub struct ObservableTimerSystems;
 
 /// This plugin provides functionality for the [`ObservableTimer`] component.
 ///
@@ -58,7 +58,7 @@ impl Plugin for ObservableTimerPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             self.schedule,
-            update_observable_timers.in_set(ObservableTimerSet),
+            update_observable_timers.in_set(ObservableTimerSystems),
         );
     }
 }
