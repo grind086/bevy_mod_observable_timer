@@ -145,14 +145,15 @@ impl DerefMut for ObservableTimer {
     }
 }
 
-/// A timer [`Event`] that is triggered when an [`ObservableTimer`] is added or inserted.
+/// A timer [`Event`] that is triggered when an [`ObservableTimer`] is inserted or spawned.
 #[derive(Event, Debug)]
 pub struct TimerStarted;
 
 /// A timer [`Event`] that is triggered when an [`ObservableTimer`] is removed or despawned.
 #[derive(Event, Debug)]
 pub struct TimerStopped {
-    /// This is `true` for [`TimerMode::Once`] timers that finished normally.
+    /// This is `true` for [`TimerMode::Once`] timers that finished normally, and removed or
+    /// despawned themselves.
     pub finished: bool,
 }
 
