@@ -69,6 +69,12 @@ Timer finished (#5)
 Timer stopped
 ```
 
+## Compatibility
+
+| bevy   | bevy_mod_observable_timer |
+| ------ | ------------------------- |
+| `0.16` | `0.2`                     |
+
 ## License
 
 Except where noted, all code in this repository is dual-licensed under either:
