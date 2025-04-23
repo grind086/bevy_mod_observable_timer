@@ -7,7 +7,7 @@ use core::{
 
 use bevy::{
     ecs::{
-        component::HookContext,
+        component::ComponentId,
         schedule::{InternedScheduleLabel, ScheduleLabel},
         world::DeferredWorld,
     },
@@ -161,7 +161,7 @@ pub struct TimerStopped {
 #[derive(Event, Debug)]
 pub struct TimerFinished;
 
-fn on_timer_removed(mut world: DeferredWorld, HookContext { entity, .. }: HookContext) {
+fn on_timer_removed(mut world: DeferredWorld, entity: Entity, _: ComponentId) {
     let timer = world.get::<ObservableTimer>(entity).unwrap();
     let finished = timer.mode() == TimerMode::Once && timer.finished();
     world

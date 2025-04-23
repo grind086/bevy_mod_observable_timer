@@ -34,7 +34,7 @@ fn startup(mut commands: Commands) {
         .observe(
             |_: Trigger<TimerStopped>, mut app_exit: EventWriter<AppExit>| {
                 info!("Timer stopped");
-                app_exit.write_default();
+                app_exit.send_default();
             },
         );
 }
