@@ -39,6 +39,6 @@ fn startup(mut commands: Commands) {
         // This will only run if the timer is manually cancelled
         .observe(|_: Trigger<TimerStopped>, mut app_exit: EventWriter<AppExit>| {
             info!("Timer stopped");
-            app_exit.send_default();
+            app_exit.write_default();
         });
 }

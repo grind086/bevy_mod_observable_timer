@@ -38,7 +38,7 @@ fn startup(mut commands: Commands) {
                     "Timer stopped (finished = {})",
                     trigger.event().finished
                 );
-                app_exit.send_default();
+                app_exit.write_default();
             },
         )
         .id();

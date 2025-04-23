@@ -37,14 +37,14 @@ fn startup(mut commands: Commands) {
                 info!("Timer finished (#{})", *count);
 
                 if *count == 5 {
-                    commands.entity(trigger.entity()).despawn();
+                    commands.entity(trigger.target()).despawn();
                 }
             },
         )
         .observe(
             |_: Trigger<TimerStopped>, mut app_exit: EventWriter<AppExit>| {
                 info!("Timer stopped");
-                app_exit.send_default();
+                app_exit.write_default();
             },
         );
 }
