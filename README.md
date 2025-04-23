@@ -1,5 +1,10 @@
 # bevy_mod_observable_timer
 
+[![License](https://img.shields.io/badge/license-MIT%2FApache-blue.svg)](https://github.com/grind086/bevy_mod_observable_timer#license)
+[![Crates.io](https://img.shields.io/crates/v/bevy_mod_observable_timer.svg)](https://crates.io/crates/bevy_mod_observable_timer)
+[![Downloads](https://img.shields.io/crates/d/bevy_mod_observable_timer.svg)](https://crates.io/crates/bevy_mod_observable_timer)
+[![Docs](https://docs.rs/bevy_mod_observable_timer/badge.svg)](https://docs.rs/bevy_mod_observable_timer/latest/bevy_mod_observable_timer/)
+
 This crate provides an observer-based timer system for bevy entities. Any entity may have an [`ObservableTimer`]
 component attached to it, which will produce observable lifetime cycle triggers.
 
@@ -63,3 +68,12 @@ Timer finished (#4)
 Timer finished (#5)
 Timer stopped
 ```
+
+## License
+
+Except where noted, all code in this repository is dual-licensed under either:
+
+* MIT License ([LICENSE-MIT](LICENSE-MIT) or [http://opensource.org/licenses/MIT](http://opensource.org/licenses/MIT))
+* Apache License, Version 2.0 ([LICENSE-APACHE](LICENSE-APACHE) or [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0))
+
+at your option.
