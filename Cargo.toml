@@ -2,7 +2,7 @@
 name = "bevy_mod_observable_timer"
 version = "0.2.0-rc.1"
 authors = ["Rob Grindeland <rgrindeland@gmail.com>"]
-edition = "2021"
+edition = "2024"
 description = "An observer-based timer for bevy"
 readme = "README.md"
 repository = "https://github.com/grind086/bevy_mod_observable_timer"
