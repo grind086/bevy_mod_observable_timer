@@ -1,6 +1,6 @@
 [package]
 name = "bevy_mod_observable_timer"
-version = "0.3.0-rc.1"
+version = "0.3.0"
 authors = ["Rob Grindeland <rgrindeland@gmail.com>"]
 edition = "2024"
 description = "An observer-based timer for bevy"
@@ -10,7 +10,7 @@ license = "MIT OR Apache-2.0"
 keywords = ["bevy", "observer", "timer"]
 
 [dependencies]
-bevy = { version = "0.16.0-rc.5", default-features = false }
+bevy = { version = "0.16.0", default-features = false }
 
 [dev-dependencies]
-bevy = { version = "0.16.0-rc.5", default-features = false, features = ["bevy_log"] }
+bevy = { version = "0.16.0", default-features = false, features = ["bevy_log"] }
