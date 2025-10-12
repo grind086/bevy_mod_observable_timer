@@ -25,14 +25,14 @@ fn startup(mut commands: Commands) {
     commands
         // Shortcut for `ObservableTimer::from_seconds(1, 1.0)`
         .spawn(ObservableTimer::from_seconds(1.0, TimerMode::Once))
-        .observe(|_: Trigger<TimerStarted>| {
+        .observe(|_: On<TimerStarted>| {
             info!("Timer started");
         })
-        .observe(|_: Trigger<TimerFinished>| {
+        .observe(|_: On<TimerFinished>| {
             info!("Timer finished");
         })
         .observe(
-            |_: Trigger<TimerStopped>, mut app_exit: EventWriter<AppExit>| {
+            |_: On<TimerStopped>, mut app_exit: MessageWriter<AppExit>| {
                 info!("Timer stopped");
                 app_exit.write_default();
             },

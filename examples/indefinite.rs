@@ -1,5 +1,5 @@
 //! A timer that runs indefinitely (this example does not exit).
-//! 
+//!
 //! This should result in an output of:
 //! ```text
 //! Timer started
@@ -9,7 +9,6 @@
 //! Timer finished (#4)
 //! ...
 //! ```
-
 
 use bevy::{log::LogPlugin, prelude::*};
 use bevy_mod_observable_timer::*;
@@ -29,16 +28,18 @@ fn startup(mut commands: Commands) {
     commands
         // Shortcut for `ObservableTimer::from_seconds(0, 1.0)`
         .spawn(ObservableTimer::from_seconds(1.0, TimerMode::Repeating))
-        .observe(|_: Trigger<TimerStarted>| {
+        .observe(|_: On<TimerStarted>| {
             info!("Timer started");
         })
-        .observe(|_: Trigger<TimerFinished>, mut count: Local<usize>| {
+        .observe(|_: On<TimerFinished>, mut count: Local<usize>| {
             *count += 1;
             info!("Timer finished (#{})", *count);
         })
         // This will only run if the timer is manually cancelled
-        .observe(|_: Trigger<TimerStopped>, mut app_exit: EventWriter<AppExit>| {
-            info!("Timer stopped");
-            app_exit.write_default();
-        });
+        .observe(
+            |_: On<TimerStopped>, mut app_exit: MessageWriter<AppExit>| {
+                info!("Timer stopped");
+                app_exit.write_default();
+            },
+        );
 }
