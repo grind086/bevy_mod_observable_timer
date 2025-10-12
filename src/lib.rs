@@ -7,7 +7,7 @@ use core::{
 
 use bevy::{
     ecs::{
-        component::HookContext,
+        lifecycle::HookContext,
         schedule::{InternedScheduleLabel, ScheduleLabel},
         world::DeferredWorld,
     },
@@ -145,28 +145,37 @@ impl DerefMut for ObservableTimer {
     }
 }
 
-/// A timer [`Event`] that is triggered when an [`ObservableTimer`] is inserted or spawned.
-#[derive(Event, Debug)]
-pub struct TimerStarted;
+/// A timer [`EntityEvent`] that is triggered when an [`ObservableTimer`] is inserted or spawned.
+#[derive(EntityEvent, Debug)]
+pub struct TimerStarted {
+    /// The timer [`Entity`].
+    #[entity_event]
+    pub entity: Entity,
+}
 
-/// A timer [`Event`] that is triggered when an [`ObservableTimer`] is removed or despawned.
-#[derive(Event, Debug)]
+/// A timer [`EntityEvent`] that is triggered when an [`ObservableTimer`] is removed or despawned.
+#[derive(EntityEvent, Debug)]
 pub struct TimerStopped {
+    /// The timer [`Entity`].
+    #[entity_event]
+    pub entity: Entity,
     /// This is `true` for [`TimerMode::Once`] timers that finished normally, and removed or
     /// despawned themselves.
     pub finished: bool,
 }
 
-/// A timer [`Event`] that is triggered when an [`ObservableTimer`] finishes.
-#[derive(Event, Debug)]
-pub struct TimerFinished;
+/// A timer [`EntityEvent`] that is triggered when an [`ObservableTimer`] finishes.
+#[derive(EntityEvent, Debug)]
+pub struct TimerFinished {
+    /// The timer [`Entity`].
+    #[entity_event]
+    pub entity: Entity,
+}
 
 fn on_timer_removed(mut world: DeferredWorld, HookContext { entity, .. }: HookContext) {
     let timer = world.get::<ObservableTimer>(entity).unwrap();
-    let finished = timer.mode() == TimerMode::Once && timer.finished();
-    world
-        .commands()
-        .trigger_targets(TimerStopped { finished }, entity);
+    let finished = timer.mode() == TimerMode::Once && timer.is_finished();
+    world.commands().trigger(TimerStopped { entity, finished });
 }
 
 fn update_observable_timers(
@@ -177,12 +186,12 @@ fn update_observable_timers(
     let delta = time.delta();
     for (entity, mut timer) in timers.iter_mut() {
         if timer.is_added() {
-            commands.trigger_targets(TimerStarted, entity)
+            commands.trigger(TimerStarted { entity })
         }
 
         if timer.tick(delta).just_finished() {
             for _ in 0..timer.times_finished_this_tick() {
-                commands.trigger_targets(TimerFinished, entity);
+                commands.trigger(TimerFinished { entity });
             }
 
             if timer.mode() == TimerMode::Once {
