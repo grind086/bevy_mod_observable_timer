@@ -36,21 +36,21 @@ fn main() {
 fn startup(mut commands: Commands) {
     commands
         .spawn(ObservableTimer::from_seconds(1.0, TimerMode::Repeating))
-        .observe(|_: Trigger<TimerStarted>| {
+        .observe(|_: On<TimerStarted>| {
             info!("Timer started");
         })
         .observe(
-            |trigger: Trigger<TimerFinished>, mut count: Local<usize>, mut commands: Commands| {
+            |trigger: On<TimerFinished>, mut count: Local<usize>, mut commands: Commands| {
                 *count += 1;
                 info!("Timer finished (#{})", *count);
 
                 if *count == 5 {
-                    commands.entity(trigger.target()).despawn();
+                    commands.entity(trigger.entity).despawn();
                 }
             },
         )
         .observe(
-            |_: Trigger<TimerStopped>, mut app_exit: EventWriter<AppExit>| {
+            |_: On<TimerStopped>, mut app_exit: MessageWriter<AppExit>| {
                 info!("Timer stopped");
                 app_exit.write_default();
             },
